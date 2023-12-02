@@ -4,7 +4,7 @@ let file2URL = URL(fileURLWithPath: "Inputs/Day2Input.txt")
 
 
 struct Day2: DayChallenge {
-    static func partOne() {
+    static func partOne(input: String) -> String {
 
         let startingCounts = [
             "red": 12,
@@ -48,9 +48,10 @@ struct Day2: DayChallenge {
         }
 
         print("Sum of allowed games: \(sumOfAllowedGames) | Expected: \(expectedTestOutput)" )
+        return String(sumOfAllowedGames)
 
     }
-    static func partTwo() {
+    static func partTwo(input: String) -> String {
 
         let input = try! String(contentsOf: file2URL, encoding: .utf8)
 
@@ -86,7 +87,7 @@ struct Day2: DayChallenge {
             print("Game \(gameId) has a total power of \(turnTotalPower)")
             totalPower += turnTotalPower
         }
-
         print("Total power: \(totalPower)" )
+        return String(totalPower)
     }
 }

@@ -2,8 +2,8 @@ import Foundation
 
 // Protocols for each day's challenge
 protocol DayChallenge {
-    static func partOne()
-    static func partTwo()
+    static func partOne(input: String) -> String
+    static func partTwo(input: String) -> String
 }
 
 // Dictionary mapping day identifiers to their respective challenge structures
@@ -42,11 +42,25 @@ func executeChallenge(day: String, part: String) {
         return
     }
 
+    let dayNumber = String(day.dropFirst())
+    let fileURL = URL(fileURLWithPath: "Inputs/Day\(dayNumber)Input.txt")
+
+    print(fileURL)
+    let inputText = try? String(contentsOf: fileURL, encoding: .utf8)
+
+    guard let input = inputText else {
+        print("Input not found")
+        return
+    }
+
+
     switch part {
     case "p1":
-        challenge.partOne()
+        let result = challenge.partOne(input: input)
+        print(result)
     case "p2":
-        challenge.partTwo()
+        let result = challenge.partTwo(input: input)
+        print(result)
     default:
         print("Invalid part")
     }
