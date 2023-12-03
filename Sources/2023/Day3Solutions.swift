@@ -7,69 +7,18 @@ struct Day3_2023: DayChallenge {
         return String(sum)
     }
     static func partTwo(input: String) -> String {
-
-        func isSymbol(_ ch: Character) -> Bool {
-            return ch == "*"
-        }
-
-        func findNumbersAroundSymbol(at i: Int, _ j: Int, in schematic: [[Character]]) -> [Int] {
-            var numbers = Set<Int>()
-            for dx in -1...1 {
-                for dy in -1...1 {
-                    let newX = i + dx
-                    let newY = j + dy
-                    if newX >= 0, newY >= 0, newX < schematic.count, newY < schematic[0].count,
-                    schematic[newX][newY].isNumber {
-                        let number = findWholeNumber(startingAt: newX, newY, in: schematic)
-                        numbers.insert(number)
-                    }
-                }
-            }
-            return Array(numbers)
-        }
-
-        func findWholeNumber(startingAt i: Int, _ j: Int, in schematic: [[Character]]) -> Int {
-            var numberString = ""
-            let x = i
-            var y = j
-
-            // Move left to the start of the number
-            while y >= 0 && schematic[x][y].isNumber {
-                y -= 1
-            }
-            y += 1
-
-            // Move right to get the whole number
-            while y < schematic[x].count && schematic[x][y].isNumber {
-                numberString.append(schematic[x][y])
-                y += 1
-            }
-
-            return Int(numberString) ?? 0
-        }
-
-        let lines = input.components(separatedBy: "\n").map { Array($0) }.filter { !$0.isEmpty }
-        var sum = 0
-
-        for i in 0..<lines.count {
-            for j in 0..<lines[0].count {
-                if isSymbol(lines[i][j]) {
-                    let adjacentNumbers = findNumbersAroundSymbol(at: i, j, in: lines)
-                    if adjacentNumbers.count > 1 {
-                        sum += adjacentNumbers.reduce(1, *)
-                    }
-                }
-            }
-        }
-
+        let schematic = input.components(separatedBy: "\n").map { Array($0) }.filter { !$0.isEmpty }
+        let sum = getGearRatio(from: schematic)
         return String(sum)
     }
 }
 
+
+// P1 Helpers
+
 func checkForSymbolFromCharacter(named character: Character) -> Bool {
     return character != "." && !character.isNumber
 }
-
 func hasSymbolsAroundLocation(at locations: [(Int, Int)], in grid: [[Character]]) -> Bool {
     for (x, y) in locations {
         for deltaX in -1...1 {
@@ -88,17 +37,13 @@ func hasSymbolsAroundLocation(at locations: [(Int, Int)], in grid: [[Character]]
     }
     return false
 }
-
 func getSumOfPartNumbers(from grid: [[Character]]) -> Int {
-
     var sum = 0
     var currentNumber = ""
     var currentNumberLocation = [(Int, Int)]()
-
     for x in 0..<grid.count {
         for y in 0..<grid[0].count {
             let character = grid[x][y]
-
             if character.isNumber {
                 currentNumber.append(character)
                 currentNumberLocation.append((x, y))
@@ -111,6 +56,56 @@ func getSumOfPartNumbers(from grid: [[Character]]) -> Int {
             }
         }
     }
+    return sum
+}
 
+// P2 Helpers
+
+func checkForAsteriskFromCharacter(named character: Character) -> Bool {
+    return character == "*"
+}
+func getNumbersAroundLocation(at location: (x: Int, y: Int), in grid: [[Character]]) -> [Int] {
+    var numbers = Set<Int>()
+    for deltaX in -1...1 {
+        for deltaY in -1...1 {
+            let adjacentLocation = ( x: location.x + deltaX, y:  location.y + deltaY)
+            let adjacentCharacter = grid[adjacentLocation.x][adjacentLocation.y]
+
+            if isValidPosition(at: adjacentLocation, in: grid), adjacentCharacter.isNumber {
+                let number = findWholeNumber(startingAt: adjacentLocation, in: grid)
+                numbers.insert(number)
+            }
+        }
+    }
+    return Array(numbers)
+}
+func isValidPosition(at position: (x: Int, y: Int), in grid: [[Character]]) -> Bool {
+    return position.x >= 0 && position.y >= 0 && position.x < grid.count && position.y < grid[0].count
+}
+func findWholeNumber(startingAt position: (x: Int, y: Int), in grid: [[Character]]) -> Int {
+    var numberString = ""
+    var yPointerIndex = position.y
+    while yPointerIndex >= 0 && grid[position.x][yPointerIndex].isNumber {
+        yPointerIndex -= 1
+    }
+    yPointerIndex += 1
+    while yPointerIndex < grid[position.x].count && grid[position.x][yPointerIndex].isNumber {
+        numberString.append(grid[position.x][yPointerIndex])
+        yPointerIndex += 1
+    }
+    return Int(numberString) ?? 0
+}
+func getGearRatio(from grid: [[Character]]) -> Int {
+    var sum = 0
+    for x in 0..<grid.count {
+        for y in 0..<grid[0].count {
+            if checkForAsteriskFromCharacter(named: grid[x][y]) {
+                let adjacentNumbers = getNumbersAroundLocation(at: (x, y), in: grid)
+                if adjacentNumbers.count > 1 {
+                    sum += adjacentNumbers.reduce(1, *)
+                }
+            }
+        }
+    }
     return sum
 }
