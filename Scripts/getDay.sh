@@ -38,3 +38,11 @@ echo """
         }
     }
 """ > Sources/$YEAR/Day$DAY\Solutions.swift
+
+# Enables the day in the dictionary in the main file
+swift_file_path="Sources/$YEAR/main.swift"
+# Pattern to search for the specified day in the dictionary
+pattern="\"d$DAY\": Day${DAY}_2022.self"
+echo "Pattern: $pattern"
+# Check if the line is commented out and uncomment it
+sed -i '' "/$pattern/s/^ *\(\s*\/\/ *\)/    /" "$swift_file_path"
