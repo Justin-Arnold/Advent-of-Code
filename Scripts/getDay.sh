@@ -43,6 +43,5 @@ echo """
 swift_file_path="Sources/$YEAR/main.swift"
 # Pattern to search for the specified day in the dictionary
 pattern="\"d$DAY\": Day${DAY}_2022.self"
-echo "Pattern: $pattern"
 # Check if the line is commented out and uncomment it
 sed -i '' "/$pattern/s/^ *\(\s*\/\/ *\)/    /" "$swift_file_path"
