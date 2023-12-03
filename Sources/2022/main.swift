@@ -54,32 +54,30 @@ func executeChallenge(day: String, part: String, isSolved: String?) {
 
 
     switch part {
-    case "p1":
+     case "p1":
         let result = challenge.partOne(input: input)
+        print("=========================")
+        print("Answer: \(result)")
         if (isSolved != nil) {
-            // run solved function from getDay.sh with result
-            print("Solved")
             let task = Process()
             task.launchPath = "/bin/bash"
             task.arguments = ["Scripts/submit.sh", "2022", dayNumber, "1", result]
             task.launch()
             task.waitUntilExit()
-            print("Done")
         }
-        print(result)
+        print("=========================")
     case "p2":
         let result = challenge.partTwo(input: input)
+        print("=========================")
+        print("Answer: \(result)")
         if (isSolved != nil) {
-            // run solved function from getDay.sh with result
-            print("Solved")
             let task = Process()
             task.launchPath = "/bin/bash"
             task.arguments = ["Scripts/submit.sh", "2022", dayNumber, "2", result]
             task.launch()
             task.waitUntilExit()
-            print("Done")
         }
-        print(result)
+        print("=========================")
     default:
         print("Invalid part")
     }
