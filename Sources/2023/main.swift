@@ -8,8 +8,8 @@ protocol DayChallenge {
 
 // Dictionary mapping day identifiers to their respective challenge structures
 let challenges: [String: DayChallenge.Type] = [
-    // "d1": Day1_2022.self,
-    // "d2": Day2_2022.self,
+    "d1": Day1_2023.self,
+    "d2": Day2_2023.self,
     "d3": Day3_2023.self,
     // "d4": Day4_2022.self,
     // "d5": Day5_2022.self,
@@ -55,17 +55,17 @@ func executeChallenge(day: String, part: String, isSolved: String?) {
     switch part {
     case "p1":
         let result = challenge.partOne(input: input)
+        print("=========================")
+        print("Answer: \(result)")
         if (isSolved != nil) {
             // run solved function from getDay.sh with result
-            print("Solved")
             let task = Process()
             task.launchPath = "/bin/bash"
             task.arguments = ["Scripts/submit.sh", "2023", dayNumber, "1", result]
             task.launch()
             task.waitUntilExit()
-            print("Done")
         }
-        print(result)
+        print("=========================")
     case "p2":
         let result = challenge.partTwo(input: input)
         if (isSolved != nil) {

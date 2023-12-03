@@ -1,9 +1,6 @@
 import Foundation
 
-let file1URL = URL(fileURLWithPath: "Inputs/Day1Input.txt")
-let fileContents = try! String(contentsOf: file1URL, encoding: .utf8)
-
-struct Day1: DayChallenge {
+struct Day1_2023: DayChallenge {
     static func partOne(input: String) -> String {
         let lines = input.split(separator: "\n")
         var totalSum = 0
@@ -25,9 +22,8 @@ struct Day1: DayChallenge {
     static func partTwo(input: String) -> String {
         let replacements = ["one": "o1ne", "two": "t2wo", "three": "t3hree", "four": "f4our", "five": "f5ive", "six": "s6ix", "seven": "s7even", "eight": "e8ight", "nine": "n9ine"]
         do {
-            let fileContents = try String(contentsOf: file1URL, encoding: .utf8)
             // let fileContents = try String(contentsOf: file1URL, encoding: .utf8)
-            let lines = fileContents.split(separator: "\n")
+            let lines = input.split(separator: "\n")
             var totalSum = 0
 
             for line in lines {
