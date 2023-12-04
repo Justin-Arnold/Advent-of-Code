@@ -37,7 +37,7 @@ let challenges: [String: DayChallenge.Type] = [
 
 // Function to execute the challenge based on day and part
 func executeChallenge(day: String, part: String, isSolved: String?) {
-    guard let challenge = challenges[day] else {
+    guard let challenge = challenges["d" + day] else {
         print("Day not found")
         return
     }
@@ -90,8 +90,28 @@ guard args.count == 3 || args.count == 4 else {
     exit(1)
 }
 
-let day = args[1].lowercased()  // Ensure lowercase to match dictionary keys
+let day = String(args[1].lowercased().dropFirst())  // Ensure lowercase to match dictionary keys
 let part = args[2].lowercased()
+
+let inputPath = "Inputs/2023/Day\(day)Input.txt"
+let fileManager = FileManager.default
+if !fileManager.fileExists(atPath: inputPath) {
+    let task = Process()
+    task.launchPath = "/bin/bash"
+    task.arguments = ["Scripts/getDay.sh", "2023", day]
+    task.launch()
+    task.waitUntilExit()
+    // check if input is there now, if not wait .5 sec and do it again
+    var count = 0
+    while !fileManager.fileExists(atPath: inputPath) {
+        sleep(1)
+        count += 1
+        if count > 5 {
+            print("failed finding files")
+            exit(1)
+        }
+    }
+}
 
 if args.count == 4 {
     let solved = args[3].lowercased()

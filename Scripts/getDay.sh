@@ -27,16 +27,16 @@ touch Sources/$YEAR/Day$DAY\Solutions.swift
 
 # Writes the template for the day
 echo """
-    import Foundation
+import Foundation
 
-    struct Day${DAY}_$YEAR: DayChallenge {
-        static func partOne(input: String) -> String {
-            return input
-        }
-        static func partTwo(input: String) -> String {
-            return input
-        }
+struct Day${DAY}_$YEAR: DayChallenge {
+    static func partOne(input: String) -> String {
+        return input
     }
+    static func partTwo(input: String) -> String {
+        return input
+    }
+}
 """ > Sources/$YEAR/Day$DAY\Solutions.swift
 
 # Enables the day in the dictionary in the main file
