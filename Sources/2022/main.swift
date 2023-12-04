@@ -10,7 +10,7 @@ protocol DayChallenge {
 let challenges: [String: DayChallenge.Type] = [
     "d1": Day1_2022.self,
     "d2": Day2_2022.self,
-    // "d3": Day3_2022.self,
+    "d3": Day3_2022.self,
     // "d4": Day4_2022.self,
     // "d5": Day5_2022.self,
     // "d6": Day6_2022.self,
@@ -37,12 +37,12 @@ let challenges: [String: DayChallenge.Type] = [
 
 // Function to execute the challenge based on day and part
 func executeChallenge(day: String, part: String, isSolved: String?) {
-    guard let challenge = challenges[day] else {
+    guard let challenge = challenges["d" + day] else {
         print("Day not found")
         return
     }
 
-    let dayNumber = String(day.dropFirst())
+    let dayNumber = day
     let fileURL = URL(fileURLWithPath: "Inputs/2022/Day\(dayNumber)Input.txt")
 
     let inputText = try? String(contentsOf: fileURL, encoding: .utf8)
@@ -54,7 +54,7 @@ func executeChallenge(day: String, part: String, isSolved: String?) {
 
 
     switch part {
-     case "p1":
+    case "p1":
         let result = challenge.partOne(input: input)
         print("=========================")
         print("Answer: \(result)")
@@ -91,8 +91,29 @@ guard args.count == 3 || args.count == 4 else {
     exit(1)
 }
 
-let day = args[1].lowercased()  // Ensure lowercase to match dictionary keys
+let day = String(args[1].lowercased().dropFirst()) // Ensure lowercase to match dictionary keys
 let part = args[2].lowercased()
+
+
+let inputPath = "Inputs/2022/Day\(day)Input.txt"
+let fileManager = FileManager.default
+if !fileManager.fileExists(atPath: inputPath) {
+    let task = Process()
+    task.launchPath = "/bin/bash"
+    task.arguments = ["Scripts/getDay.sh", "2022", day]
+    task.launch()
+    task.waitUntilExit()
+    // check if input is there now, if not wait .5 sec and do it again
+    var count = 0
+    while !fileManager.fileExists(atPath: inputPath) {
+        sleep(1)
+        count += 1
+        if count > 5 {
+            print("failed finding files")
+            exit(1)
+        }
+    }
+}
 
 if args.count == 4 {
     let solved = args[3].lowercased()
