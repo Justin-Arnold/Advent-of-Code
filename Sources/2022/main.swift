@@ -117,8 +117,8 @@ if !fileManager.fileExists(atPath: inputPath) {
 
 if args.count == 4 {
     let solved = args[3].lowercased()
-    guard solved == "solved" else {
-        print("Usage: swift run d<x> p<1|2> solved")
+    guard solved == "submit" else {
+        print("Usage: swift run d<x> p<1|2> submit")
         exit(1)
     }
     executeChallenge(day: day, part: part, isSolved: solved)
