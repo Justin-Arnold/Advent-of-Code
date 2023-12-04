@@ -11,7 +11,7 @@ let challenges: [String: DayChallenge.Type] = [
     "d1": Day1_2023.self,
     "d2": Day2_2023.self,
     "d3": Day3_2023.self,
-    // "d4": Day4_2023.self,
+    "d4": Day4_2023.self,
     // "d5": Day5_2023.self,
     // "d6": Day6_2023.self,
     // "d7": Day7_2023.self,
@@ -41,8 +41,9 @@ func executeChallenge(day: String, part: String, isSolved: String?) {
         print("Day not found")
         return
     }
-    let dayNumber = String(day.dropFirst())
+    let dayNumber = String(day)
     let fileURL = URL(fileURLWithPath: "Inputs/2023/Day\(dayNumber)Input.txt")
+    print(fileURL)
 
     let inputText = try? String(contentsOf: fileURL, encoding: .utf8)
 
