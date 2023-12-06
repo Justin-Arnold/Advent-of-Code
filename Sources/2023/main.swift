@@ -1,4 +1,5 @@
 import Foundation
+import Dispatch
 
 // Protocols for each day's challenge
 protocol DayChallenge {
@@ -12,7 +13,7 @@ let challenges: [String: DayChallenge.Type] = [
     "d2": Day2_2023.self,
     "d3": Day3_2023.self,
     "d4": Day4_2023.self,
-    // "d5": Day5_2023.self,
+    "d5": Day5_2023.self,
     // "d6": Day6_2023.self,
     // "d7": Day7_2023.self,
     // "d8": Day8_2023.self,
@@ -55,7 +56,13 @@ func executeChallenge(day: String, part: String, isSolved: String?) {
 
     switch part {
     case "p1":
+        let startTime = DispatchTime.now()
         let result = challenge.partOne(input: input)
+        let endTime = DispatchTime.now()
+        let timeInterval = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
+        let timeIntervalInMs = Double(timeInterval) / 1_000_000
+        print("Time: \(timeIntervalInMs)ms")
+
         print("=========================")
         print("Answer: \(result)")
         if (isSolved != nil) {
@@ -67,7 +74,12 @@ func executeChallenge(day: String, part: String, isSolved: String?) {
         }
         print("=========================")
     case "p2":
+        let startTime = DispatchTime.now()
         let result = challenge.partTwo(input: input)
+        let endTime = DispatchTime.now()
+        let timeInterval = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
+        let timeIntervalInMs = Double(timeInterval) / 1_000_000
+        print("Time: \(timeIntervalInMs)ms")
         print("=========================")
         print("Answer: \(result)")
         if (isSolved != nil) {
