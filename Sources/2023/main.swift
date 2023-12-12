@@ -18,7 +18,7 @@ let challenges: [String: DayChallenge.Type] = [
     "d7": Day7_2023.self,
     "d8": Day8_2023.self,
     "d9": Day9_2023.self,
-    // "d10": Day10_2023.self,
+    "d10": Day10_2023.self,
     // "d11": Day11_2023.self,
     // "d12": Day12_2023.self,
     // "d13": Day13_2023.self,
